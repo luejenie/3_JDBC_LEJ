@@ -1,15 +1,18 @@
 package edu.kh.jdbc1;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+
 public class JDBCExample2 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		
 		
 		// 1단계 : JDBC 객체 참조 변수 생성(java.sql)
 		Connection conn = null;
@@ -30,12 +33,12 @@ public class JDBCExample2 {
 			
 			conn = DriverManager.getConnection(type + ip + port + sid, user, pw);
 			
-			System.out.println("입력 받은 급여보다 많이 받는(초과) 직원만 조회 > ");
+			System.out.println("< 입력 받은 급여보다 많이 받는(초과) 직원만 조회 > ");
 			System.out.print("급여 입력 : ");
 			
 			int input = sc.nextInt();
 			
-			String sql = "SELECT EMP_ID, EMP_NAME, SALARY FROM EMPLOYEE WHERE SALARY > " + input;
+			String sql = "SELECT EMP_ID, EMP_NAME, SALARY, HIRE_DATE FROM EMPLOYEE WHERE SALARY > " + input;
 			
 			stmt = conn.createStatement();
 			
@@ -50,8 +53,10 @@ public class JDBCExample2 {
 				String empId = rs.getString("EMP_ID");
 				String empName = rs.getString("EMP_NAME");
 				int salary = rs.getInt("SALARY");
+				Date hireDate = rs.getDate("HIRE_DATE");
 				
-				System.out.printf("사번 : %s / 이름 : %s / 급여 : %d\n" , empId, empName, salary);
+				System.out.printf("사번 : %s / 이름 : %s / 급여 : %d 입사일자 : %s\n" , 
+									empId, empName, salary, hireDate);
 				
 				
 			}
@@ -78,6 +83,7 @@ public class JDBCExample2 {
 			
 		}
 		
+		sc.close();
 	}
 
 }

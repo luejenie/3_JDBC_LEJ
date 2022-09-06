@@ -11,15 +11,16 @@ public class JDBCExample {
 	public static void main(String[] args) {
 		
 		// JDBC : Java에서 DB에 연결(접근)할 수 있게 해주는 Java Programming API
-		//													(Java에 기본 내장된 인터페이스)
+		//									     (Java에 기본 내장된 인터페이스)
 		// java.sql 패키지에서 제공
 		
 		// *JDBC를 이용한 애플리케이션을 만들 때 필요한 것
-		// 1. Java의 JDBC 관련 인터페이스
+		// 1. Java의 JDBC 관련 인터페이스   _Connection, Statement, ResultSet 객체 참조 변수 선언
 		// 2. DBMS(Oracle) 
 		// 3. Oracle에서 Java 애플리케이션과 연결할 때 사용할 
 		//    JDBC를 상속 받아 구현한 클래스 모음(ojdbc11.jar 라이브러리)
 		// 		-> OracleDriver.class (JDBC 드라이버) 이용
+					//Class.forName("oracle.jdbc.driver.OracleDriver");
 		
 		
 		
@@ -49,12 +50,14 @@ public class JDBCExample {
 			// 2단계 : 참조 변수에 알맞은 객체 대입
 			
 			// 2-1. DB 연결에 필요한 Oracle JDBC Driver 메모리에 로드하기
-			//													 → 객체로 만들어 두기			
+			//									 → 객체로 만들어 두기			
 																 
 			Class.forName("oracle.jdbc.driver.OracleDriver");   //Class.forName("패키지명 +  클래스명");  클래스명은 대문자 시작!
 			// → ( ) 안에 작성된 클래스의 객체를 반환
 			// → 메모리에 객체가 생성되어지고 JDBC 필요 시 알아서 참조해서 사용
 			// --> 생략해도 자동으로 메모리 로드가 진행됨(명시적으로 작성하는 걸 권장)
+			// __ forName으로 객체를 만들면 메모리상에 떠다니고, 필요할 때 사용함
+			// __ DriverManager가 사용함 /
 			
 			
 			
@@ -82,9 +85,9 @@ public class JDBCExample {
 			// : 메모리에 로드된 JDBC 드라이버를 이용해서
 			// Connection 객체를 만드는 역할
 			
+//	   	              __getConnection을 이용해 간접적으로 객체를 만드는 수밖에 없음
 			conn = DriverManager.getConnection(type + ip + port + sid, user, pw);
-//	   	                                                           	== url
-			// SQLException : DB 관련 최상위 예외
+			// SQLException : DB 관련 최상위 예외                    == url
 			
 			// 중간 확인
 			// System.out.println(conn);
@@ -96,7 +99,7 @@ public class JDBCExample {
 			String sql = "SELECT EMP_ID, EMP_NAME, SALARY, HIRE_DATE FROM EMPLOYEE";   // EMPLOYEE뒤에 ; X
 			
 			
-			// 2-4. Statemnet 객체 생성
+			// 2-4. Statement 객체 생성
 			// 		→ Connection 객체를 통해 생성
 			stmt = conn.createStatement();
 			
@@ -121,12 +124,15 @@ public class JDBCExample {
 				 //              없으면 false를 반환
 				 
 				 // rs.get자료형("컬럼명")
-				 String empId = rs.getString("EMP_ID");  // 현재 행의 "EMP_ID" 문자열 컬럼의 값을 얻어옴    
-				       // _자바에서 _ 언더바 쓰지 않기
+				 String empId = rs.getString("EMP_ID");   // _자바에서 _ 언더바 쓰지 않기
+				 // 현재 행의 "EMP_ID" 문자열 컬럼의 값을 (자바로) 얻어옴    
+				      
 				 
-				 String empName = rs.getString("EMP_NAME");  // 현재 행의 "EMP_NAME" 문자열 컬럼의 값을 얻어옴
+				 String empName = rs.getString("EMP_NAME");  
+				 // 현재 행의 "EMP_NAME" 문자열 컬럼의 값을 얻어옴
 				 
-				 int salary = rs.getInt("SALARY"); // 현재 행의 "SALARY" 숫자(정수) 컬럼의 값을 얻어옴
+				 int salary = rs.getInt("SALARY"); 
+				 // 현재 행의 "SALARY" 숫자(정수) 컬럼의 값을 얻어옴
 				 
 				 // java.sql.Date 선택하기!
 				 Date hireDate = rs.getDate("HIRE_DATE");
@@ -144,10 +150,10 @@ public class JDBCExample {
 				 
 			 }
 			
-		} catch (ClassNotFoundException e){    //이거 뜨면 오타난 것.
-			System.out.println( "JDVC 드라이버 경로가 잘못 작성되었습니다." );
+		} catch (ClassNotFoundException e){    //이거 뜨면 오타난 것. Class.forName
+			System.out.println( "JDBC 드라이버 경로가 잘못 작성되었습니다." );
 	
-		} catch(SQLException e) {
+		} catch(SQLException e) {   //conn = DriverManager.getConnection
 			e.printStackTrace();
 		
 			
@@ -156,14 +162,14 @@ public class JDBCExample {
 			// ResultSet, Statement, Connection 닫기 (생성 역순으로 닫는 것을 권장)
 			
 			
-			// _ 닫기 전에 ResultSet과 Statement가 정상적으로 실행이 됐는지 먼저 확인.
+			// _ 닫기 전에 ResultSet과 Statement가 정상적으로 실행이 됐는지 먼저 확인. (if)
 			//  _ 그렇지 않으면 실행되기 전에 닫아버리는 사태가 발생
 			try {			
 				if(rs != null)  rs.close();
 				if(stmt != null) stmt.close();
 				if(conn != null) conn.close();    //_ 이들이 발생시키는 에러가 있음. >> try~catch문 이용
 				
-			} catch(SQLException e){
+			} catch(SQLException e){   //.close();
 				e.printStackTrace();
 			}
 			
