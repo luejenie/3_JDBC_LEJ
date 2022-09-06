@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 import edu.kh.jdbc1.model.vo.Employee;
 
+
+// 응용) 2개 입력 받기
+
+
 public class JDBCExmple4 {
 	public static void main(String[] args) {
 		

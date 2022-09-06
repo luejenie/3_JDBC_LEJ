@@ -10,6 +10,11 @@ import java.util.Scanner;
 
 import edu.kh.jdbc1.model.vo.Employee;
 
+// 날짜 입력 받기
+// SQL에서 TO_CHAR로 -> 자바 String
+// SQL의 CHAR와 자바의 CHAR의 차이
+// 추가 응용) 만나이, 생년월일 출력해보기
+
 public class JDBCExample5 {
 	public static void main(String[] args) {
 		

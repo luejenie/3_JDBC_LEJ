@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 import edu.kh.jdbc1.model.vo.Emp;
 
+// Scanner 추가 + SQL 받아올 때 홑따옴표 주의!
+
 public class JDBCExample3 {
 	public static void main(String[] args) {
 		

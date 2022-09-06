@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+// Scanner 추가 + SQL 입력받기
 
 public class JDBCExample2 {
 	public static void main(String[] args) {
