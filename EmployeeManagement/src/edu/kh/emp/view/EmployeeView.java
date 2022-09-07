@@ -284,6 +284,73 @@ public class EmployeeView {
 	}
 	
 	
+//	/**
+//	 * 5. 사번이 일치하는 사원 정보 삭제
+//	 */
+//	public void deleteEmployee() {
+//		System.out.println("<사번이 일치하는 사원 정보 삭제>");
+//		
+//		int empId = inputEmpId();  // 사번 입력
+//			
+//		// 사번 입력하면 사번이랑 이름 출력되도록.
+//		Employee emp1 = dao.selectEmpId(empId); 
+////		print2(emp1);
+//		if(emp1 == null) {
+//			System.out.println("조회되는 사원 정보가 없어 삭제할 수 없습니다.");
+//						
+//			
+//		} else {
+//			System.out.printf("[사번 :   %2d]  \n[이름 : %4s] \n", emp1.getEmpId(), emp1.getEmpName());
+//						
+//			System.out.print("\n정말 삭제하시겠습니까?(Y/N) ");
+//			char input = sc.next().toUpperCase().charAt(0); // Y/N 대소문자 구분 없이 입력
+//			// -> 모두 대문자로 변환됨
+//			
+//			if(input == 'Y') {
+//				// 삭제를 수행하는 DAO 호출
+//				// 성공 : "삭제되었습니다."
+//				// 실패 : "사번이 일치하는 사원이 존재하지 않습니다." - 출력
+//				
+//				Employee emp = new Employee();
+//				emp.setEmpId(empId);
+//				
+//				int result = dao.deleteEmployee(emp);
+//				
+//				if(result > 0) {
+//					System.out.println("삭제되었습니다.");
+//				} else {
+//					System.out.println("사번이 일치하는 사원이 존재하지 않습니다.");
+//				}
+//				
+//				
+//			} else {
+//				System.out.println("취소되었습니다.");
+//			}
+//		}
+//	
+//	}
+//	
+//	
+//	
+//	/** 사원 1명 정보 출력(사번, 이름)   // 사원 정보 삭제 시, 사번 입력하면 관련 정보 뜨게하고 싶어서 만들어 본 것 (수업x)
+//	 * @param emp
+//	 */
+//	public void print2(Employee emp) {
+//		
+//		if(emp == null) {
+//			System.out.println("조회된 사원 정보가 없습니다.");
+//			
+//			
+//		} else {
+//			System.out.printf("사번 : %2d  \n이름 : %4s \n", emp.getEmpId(), emp.getEmpName());
+//						
+//		}
+//		
+//	}
+	
+	
+	
+	
 	/**
 	 * 5. 사번이 일치하는 사원 정보 삭제
 	 */
@@ -292,67 +359,33 @@ public class EmployeeView {
 		
 		int empId = inputEmpId();  // 사번 입력
 			
-		// 사번 입력하면 사번이랑 이름 출력되도록.
-		Employee emp1 = dao.selectEmpId(empId); 
-//		print2(emp1);
-		if(emp1 == null) {
-			System.out.println("조회된 사원 정보가 없어 삭제할 수 없습니다.");
-						
+		
+		System.out.print("\n정말 삭제하시겠습니까?(Y/N) ");
+		char input = sc.next().toUpperCase().charAt(0); // Y/N 대소문자 구분 없이 입력
+		// -> 모두 대문자로 변환됨
+		
+		if(input == 'Y') {
+			// 삭제를 수행하는 DAO 호출
+			// 성공 : "삭제되었습니다."
+			// 실패 : "사번이 일치하는 사원이 존재하지 않습니다." - 출력
 			
-		} else {
-			System.out.printf("[사번 :   %2d]  \n[이름 : %4s] \n", emp1.getEmpId(), emp1.getEmpName());
-						
-			System.out.print("\n정말 삭제하시겠습니까?(Y/N) ");
-			char input = sc.next().toUpperCase().charAt(0); // Y/N 대소문자 구분 없이 입력
-			// -> 모두 대문자로 변환됨
+			Employee emp = new Employee();
+			emp.setEmpId(empId);
 			
-			if(input == 'Y') {
-				// 삭제를 수행하는 DAO 호출
-				// 성공 : "삭제되었습니다."
-				// 실패 : "사번이 일치하는 사원이 존재하지 않습니다." - 출력
-				
-				Employee emp = new Employee();
-				emp.setEmpId(empId);
-				
-				int result = dao.deleteEmployee(emp);
-				
-				if(result > 0) {
-					System.out.println("삭제되었습니다.");
-				} else {
-					System.out.println("사번이 일치하는 사원이 존재하지 않습니다.");
-				}
-				
-				
+			int result = dao.deleteEmployee(empId);
+			
+			if(result > 0) {
+				System.out.println("삭제되었습니다.");
 			} else {
-				System.out.println("취소되었습니다.");
+				System.out.println("사번이 일치하는 사원이 존재하지 않습니다.");
 			}
-		}
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	/** 사원 1명 정보 출력(사번, 이름)   // 사원 정보 삭제 시, 사번 입력하면 관련 정보 뜨게하고 싶어서 만들어 본 것 (수업x)
-	 * @param emp
-	 */
-	public void print2(Employee emp) {
-		
-		if(emp == null) {
-			System.out.println("조회된 사원 정보가 없습니다.");
 			
 			
 		} else {
-			System.out.printf("사번 : %2d  \n이름 : %4s \n", emp.getEmpId(), emp.getEmpName());
-						
+			System.out.println("취소되었습니다.");
 		}
-		
 	}
-	
-	
+						
 	
 	
 	

@@ -464,7 +464,7 @@ public class EmployeeDAO {
 	 * @param emp
 	 * @return result
 	 */
-	public int deleteEmployee(Employee emp) {
+	public int deleteEmployee(int empId) {
 		// TODO Auto-generated method stub
 		
 		int result = 0;
@@ -477,7 +477,7 @@ public class EmployeeDAO {
 			String sql = "DELETE FROM EMPLOYEE WHERE EMP_ID = ?";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, emp.getEmpId());
+			pstmt.setInt(1, empId);   //선생님 풀이에 empId만 썼는데.. 뭐가 다른거지..?
 			
 			result = pstmt.executeUpdate();
 			

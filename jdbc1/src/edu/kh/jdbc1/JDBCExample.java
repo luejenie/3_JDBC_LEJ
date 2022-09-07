@@ -20,6 +20,8 @@ public class JDBCExample {
 		// 3. Oracle에서 Java 애플리케이션과 연결할 때 사용할 
 		//    JDBC를 상속 받아 구현한 클래스 모음(ojdbc11.jar 라이브러리)
 		// 		-> OracleDriver.class (JDBC 드라이버) 이용
+		//	-> 오라클에서 제공하는 Java와 연결하기 위한 라이브러리   __남들이 자바코드로 만들어놓은 것 ==라이브러리
+		//     (oracleDriver 제공)
 					//Class.forName("oracle.jdbc.driver.OracleDriver");
 		
 		
@@ -39,6 +41,8 @@ public class JDBCExample {
 		// Connection을 통해
 		// SQL문을 DB에 전달하여 실행하고
 		// 생성된 결과(ResultSet, 성공한 행의 개수)를 반환(Java)하는데 사용되는 객체
+		
+		// __ cf. PreparedStatement : ?(placeholder)를 사용해서 SQL 작성을 수월하게 해줌.
 		
 		
 		ResultSet rs = null;
