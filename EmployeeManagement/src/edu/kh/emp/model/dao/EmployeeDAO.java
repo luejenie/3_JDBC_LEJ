@@ -232,7 +232,7 @@ public class EmployeeDAO {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, pw);
 			
-			// SQP 작성
+			// SQL 작성
 			String sql = "SELECT EMP_ID, EMP_NAME, EMP_NO, EMAIL, PHONE,"
 					+ "	   NVL(DEPT_TITLE, '부서없음') DEPT_TITLE, JOB_NAME, SALARY"
 					+ " FROM EMPLOYEE"
