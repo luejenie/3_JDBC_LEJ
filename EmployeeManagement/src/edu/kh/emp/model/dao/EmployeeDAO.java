@@ -775,12 +775,6 @@ public class EmployeeDAO {
 	}
 
 
-
-//	@Override
-//	public String toString() {
-//		return "[selectDeptTotalSalary()=" + selectDeptTotalSalary() + "]\n";
-//	}
-
 	
 	
 	
