@@ -151,12 +151,12 @@ public class EmployeeView {
 	
 	
 	/** 사번을 입력 받아 반환하는 메서드
-	 * @return
+	 * @return empId
 	 */
 	public int inputEmpId() {
 		System.out.print("사번 입력 : ");
 		int empId = sc.nextInt();
-		sc.nextLine();  // 버어페 남은 개행문자 제거   __추후에 혹시 모를 경우를 위해		
+		sc.nextLine();  // 버퍼에 남은 개행문자 제거   __추후에 혹시 모를 경우를 위해		
 		return empId;		
 	}
 	
