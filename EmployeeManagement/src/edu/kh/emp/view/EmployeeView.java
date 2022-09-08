@@ -442,6 +442,7 @@ public class EmployeeView {
 		Map<String, Integer> map = dao.selectDeptTotalSalary();
 
 //		System.out.println(map.toString());  
+		
 	
 		 // 세로로 출력해보기....
 		for(String key : map.keySet()) {
