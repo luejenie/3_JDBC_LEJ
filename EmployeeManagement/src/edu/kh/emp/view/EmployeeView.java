@@ -2,6 +2,7 @@ package edu.kh.emp.view;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import edu.kh.emp.model.dao.EmployeeDAO;
@@ -34,11 +35,19 @@ public class EmployeeView {
 				System.out.println("3. 사번이 일치하는 사원 정보 조회");
 				System.out.println("4. 사번이 일치하는 사원 정보 수정");
 				System.out.println("5. 사번이 일치하는 사원 정보 삭제");
-				System.out.println("6. 입력 받은 부서와 일치 모든 사원 정보 조회");
-				System.out.println("7. 입력 받은 급여 이상을 받는 모든 사원 정보 조회");
+				System.out.println("6. 입력 받은 부서와 일치 모든 사원 정보 조회");  //selectDeptEmp()
+				System.out.println("7. 입력 받은 급여 이상을 받는 모든 사원 정보 조회"); //selectSalaryEmp()
 				System.out.println("8. 부서별 급여 합 전체 조회");
-				
+				// selectDeptTotalSalary()
+	            // DB 조회 결과를 HashMap<String, Integer>에 옮겨 담아서 반환
+	            // 부서코드, 급여 합 조회
+	            				
 				System.out.println("9. 주민등록번호가 일치하는 사원 정보 조회");
+				
+	            System.out.println("10. 직급별 급여 평균 조회");
+	            // selectJobAvgSalary()
+	            // DB 조회 결과를 HashMap<String, Double>에 옮겨 담아서 반환 
+	            // 직급명, 급여 평균(소수점 첫째자리까지) 조회
 				
 				System.out.println("0. 프로그램 종료");
 				
@@ -54,10 +63,11 @@ public class EmployeeView {
 				case 3 : selectEmpId(); break;
 				case 4 : updateEmployee(); break;	//이메일, 전화번호, 급여만 바꾸기
 				case 5 : deleteEmployee(); break;   // 사번일치가 3,4,5번에서 사용되므로, 사번 일치하는 코드만 따로 생성하기
-				case 6 :  break;
-				case 7 :  break;
-				case 8 :  break;
+				case 6 : selectDeptEmp(); break;
+				case 7 : selectSalaryEmp(); break;
+				case 8 : selectDeptTotalSalary(); break;
 				case 9 : selectEmpNo(); break;
+				case 10 :selectJobAvgSalary(); break;
 				case 0 : System.out.println("프로그램을 종료합니다."); break;
 				default : System.out.println("메뉴에 존재하는 번호만 입력하세요.");
 				}
@@ -386,6 +396,90 @@ public class EmployeeView {
 		}
 	}
 						
+	
+	
+	/**
+	 * 6. 입력 받은 부서와 일치 모든 사원 정보 조회
+	 */
+	public void selectDeptEmp() {
+		System.out.println("<입력 받은 부서와 일치하는 모든 사원 정보 조회>");
+		
+		System.out.print("부서 입력 : ");
+		String dept = sc.next();
+		
+		List<Employee> empList = dao.selectDeptEmp(dept);
+		printAll(empList);
+				
+				
+	}
+	
+
+	
+	
+	/**
+	 * 7. 입력 받은 급여 이상을 받는 모든 사원 정보 조회
+	 */
+	public void selectSalaryEmp() {
+		System.out.println("<입력 받은 급여 이상을 받는 모든 사원 정보 조회>");
+		System.out.print("급여 입력 : ");
+		int salary = sc.nextInt();
+		
+		List<Employee> empList = dao.selectSalaryEmp(salary);
+		printAll(empList);
+
+	}
+	
+	
+	/**
+	 * 8. 부서별 급여 합 전체 조회
+	 *  // selectDeptTotalSalary()
+    	// DB 조회 결과를 HashMap<String, Integer>에 옮겨 담아서 반환
+    	// 부서코드, 급여 합 조회
+	 */
+	public void selectDeptTotalSalary() {
+		System.out.println("<부서별 급여 합 전체 조회>");
+		
+		Map<String, Integer> map = dao.selectDeptTotalSalary();
+
+//		System.out.println(map.toString());  
+	
+		 // 세로로 출력해보기....
+		for(String key : map.keySet()) {
+			System.out.println(key + " : " + map.get(key));
+		}
+		
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 10. 직급별 급여 평균 조회
+	 *  // DB 조회 결과를 HashMap<String, Double>에 옮겨 담아서 반환 
+		// 직급명, 급여 평균(소수점 첫째자리까지) 조회
+	 */
+	public void selectJobAvgSalary() {
+		
+		System.out.println("<직급별 급여 평균 조회>");
+		
+		Map<String, Double> map = dao.selectJobAvgSalary();
+		
+//		System.out.println(map);
+		
+		for(String key : map.keySet()) {
+			System.out.println(key + " : " + map.get(key));
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+
+	
 	
 	
 	
