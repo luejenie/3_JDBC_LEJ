@@ -1,11 +1,5 @@
 package edu.kh.jdbc.common;
 
-             //__ TestService에서 JDBCTemplate 이거마저 줄이기 위해.
-// import static 구문
-// -> static이 붙은 필드, 메서드를 호출할 때
-//	  클래스명을 생략할 수 있게 하는 구문
-
-
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
