@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import edu.kh.jdbc.model.dao.TestDAO;
+import edu.kh.jdbc.model.dao.TestDAO3;
 import edu.kh.jdbc.model.vo.TestVO;
 
 // Service : 비즈니스 로직(데이터 가공, 트랜잭션 제어) 처리
@@ -28,6 +29,7 @@ import edu.kh.jdbc.model.vo.TestVO;
 public class TestService {
 	
 	private TestDAO dao = new TestDAO();
+	private TestDAO3 dao3 = new TestDAO3();
 	
 	
 
@@ -121,5 +123,23 @@ public class TestService {
 		return res;  // insert 3회 결과 반환
 	}
 
+
+	
+
+
+	public int update(TestVO vo1) throws SQLException{
+		Connection conn = getConnection();
+		
+		int result = dao3.update(conn, vo1);
+		
+		if(result > 0) commit(conn);
+		else		   rollback(conn);
+		
+		close(conn);
+		
+		return result;
+
+	}
+	
 
 }

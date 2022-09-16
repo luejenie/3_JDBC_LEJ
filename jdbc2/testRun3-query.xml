@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<comment>testRun3-query.xml file</comment>
+	
+	
+	<!-- // 번호, 제목, 내용을 입력받아
+		// 번호가 일치하는 행의 제목, 내용 수정 -->
+	<entry key='update'>
+		UPDATE TB_TEST 
+		SET TEST_TITLE = ?, TEST_CONTENT = ?
+		WHERE TEST_NO = ?	
+	</entry>
+</properties>
