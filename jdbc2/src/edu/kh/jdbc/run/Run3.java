@@ -27,7 +27,7 @@ public class Run3 {
 		System.out.print("TEST_TITLE : ");
 		String testTitle = sc.next();
 		
-		System.out.println("TEST_CONTENT :");
+		System.out.print("TEST_CONTENT :");
 		String testContent = sc.next();
 		
 		
