@@ -13,6 +13,10 @@ public class MainView {
 	
 	private MainService service = new MainService();
 	
+	// 로그인된 회원 정보를 저장한 객체를 참조하는 참조변수    _로그인이 유지되어야 하기 때문
+	private Member loginMember = null;
+	// -> 로그인 X == null
+	// -> 로그인 O != null
 	
 	/**
 	 * 메인 메뉴 출력 메서드
@@ -23,23 +27,65 @@ public class MainView {
 		
 		do {
 			try {
-				System.out.println("----------------------------------");
-				System.out.println("\n***** 회원제 게시판 프로그램 *****\n");
-				System.out.println("1. 로그인");
-				System.out.println("2. 회원 가입");
-				System.out.println("0. 프로그램 종료");
 				
-				System.out.print("\n메뉴 선택 : ");
+				// ctrl + shift + f : 들여쓰기, 문장 정렬
+				// ctrl + shift + p : 시작, 종료 괄호 이동
 				
-				input = sc.nextInt();
-				sc.nextLine(); // 입력 버퍼 개행문자 제거
-				System.out.println();
-				
-				switch(input) {
-				case 1: break;
-				case 2: signUp(); break;
-				case 0: System.out.println("프로그램 종료"); break;
-				default: System.out.println("메뉴에 작성된 번호만 입력해주세요.");
+				// 로그인X 화면 
+				if(loginMember == null) {
+					System.out.println("----------------------------------");
+					System.out.println("\n***** 회원제 게시판 프로그램 *****\n");
+					System.out.println("1. 로그인");
+					System.out.println("2. 회원 가입");
+					System.out.println("0. 프로그램 종료");
+
+					System.out.print("\n메뉴 선택 : ");
+
+					input = sc.nextInt();
+					sc.nextLine(); // 입력 버퍼 개행문자 제거
+					System.out.println();
+
+					switch (input) {
+					case 1: login(); break;
+					case 2:	signUp();break;
+					case 0:
+						System.out.println("프로그램 종료");
+						break;
+					default:
+						System.out.println("메뉴에 작성된 번호만 입력해주세요.");
+					}
+					
+					
+					
+				} else {  // 로그인O
+					
+					System.out.println("***** 로그인메뉴 *****");
+					System.out.println("1. 회원 기능");
+					System.out.println("2. 게시판 기능");
+					System.out.println("0. 로그아웃");
+					System.out.println("99. 프로그램 종료");
+					
+					System.out.print("\n메뉴 선택 : ");
+					input = sc.nextInt();
+					
+					System.out.println();
+					
+					switch(input) {
+					case 1: break;
+					case 2: break;
+					case 0: //로그아웃 == loginMember가 참조하는 객체 없음(==null)
+							// 로그인 == loginMember가 참조하는 객체 존재
+						loginMember = null;
+						System.out.println("\n[로그아웃 되었습니다.]\n");
+						input = -1; // do-while문이 종료되지 않도록, 0이 아닌 값으로 변경
+						break;
+					case 99: 
+						System.out.println("프로그램 종료");
+//						input = 0; // -> do-while 조건식을 false로 만듦
+						System.exit(0);  // JVM을 종료, 매개변수는 0, 아니면 오류를 의미   //_main메서드 마지막에 포함되어 있음. main메서드가 끝에 닫히는 이유. 자바에서만 가능.
+						break;
+					default : System.out.println("메뉴에 작성된 번호만 입력해 주세요.");
+					}
 				}
 				
 				
@@ -52,7 +98,9 @@ public class MainView {
 		
 	}
 
-
+	
+	
+	
 	/**
 	 * 2. 회원 가입 화면
 	 */
@@ -62,7 +110,7 @@ public class MainView {
 		String memberId = null;
 		
 		String memberPw1 = null;
-		String memberPw2 = null;
+		String memberPw2 = null;  // 비밀번호 확인
 		
 		String memberName = null;
 		String memberGender = null;
@@ -139,7 +187,7 @@ public class MainView {
 			// 서비스 처리 결과에 따른 출력 화면 제어
 			System.out.println();
 			if(result > 0) {
-				System.out.println("*****회원 가입 성공*****");
+				System.out.println("***** 회원 가입 성공 *****");
 			} else {
 				System.out.println("<<회원 가입 실패>>");
 			}
@@ -154,6 +202,40 @@ public class MainView {
 		}
 	}
 	
+	
+	/**
+	 * 로그인 화면
+	 */
+	private void login() {
+		System.out.println("[로그인]");
+		System.out.print("아이디 : ");
+		String memberId = sc.next();
+		
+		System.out.print("비밀번호 : ");
+		String memberPw = sc.next();
+		
+		
+		
+		try {	
+			// 로그인 서비스 호출 후 조회 결과를 loginMember에 저장
+			loginMember = service.login(memberId, memberPw);
+			
+			System.out.println();
+			if(loginMember != null) { // 로그인 성공 시
+				System.out.println(loginMember.getMemberName() + "님 환영합니다.");  
+				// _참조하는 것에서 이름을 가져와서
+			} else { // 로그인 실패 시
+				System.out.println("[아이디 또는 비밀번호가 일치하지 않습니다.]");
+				
+			}
+			System.out.println();
+		
+		} catch(Exception e) {
+			System.out.println("\n<<로그인 중 예외 발생>>\n");
+			e.printStackTrace();
+		}
+		
+	}
 	
 
 	
