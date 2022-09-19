@@ -21,13 +21,13 @@ public class Run3 {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.print("TEST_NO : ");
+		System.out.print("번호 : ");
 		int testNo = sc.nextInt();
 		
-		System.out.print("TEST_TITLE : ");
+		System.out.print("제목 : ");
 		String testTitle = sc.next();
 		
-		System.out.print("TEST_CONTENT :");
+		System.out.print("내용 : ");
 		String testContent = sc.next();
 		
 		
@@ -38,13 +38,13 @@ public class Run3 {
 			int result = service.update(vo1);
 			
 			if(result > 0) {
-				System.out.println("update 성공");
+				System.out.println("수정되었습니다.");
 			} else {
-				System.out.println("update 실패");
+				System.out.println("일치하는 번호가 없습니다.");
 			}
 		
 		} catch (SQLException e) {
-			System.out.println("SQL 수행 중 오류 발생");
+			System.out.println("수정 중 예외가 발생했습니다.");
 			
 			e.printStackTrace();
 		}
