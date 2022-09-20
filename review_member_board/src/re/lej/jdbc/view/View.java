@@ -73,18 +73,22 @@ public class View {
 				
 				int result = service.idDupCheck(memberId);
 				
-				
-				
-			
+				if(result == 0) {
+					System.out.println("[사용 가능한 아이디");
+				} else {
+					System.out.println("[이미 존재하는 아이디]");
+				}
+				System.out.println();
 			} 
 			
+
 			
-			System.out.print("비밀번호 : ");
-			memberPw1 = sc.next();
-			
-			System.out.print("비밀번호 확인 : ");
-			memberPw2 = sc.next();
-			
+				System.out.println("비밀번호 : ");
+				memberPw1 = sc.next();
+				
+				System.out.print("비밀번호 확인 : ");
+				memberPw2 = sc.next();
+
 			System.out.print("이름 : ");
 			memberName = sc.next();
 			

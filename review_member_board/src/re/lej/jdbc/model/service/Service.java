@@ -14,7 +14,7 @@ public class Service {
 	 * @param memberId
 	 * @return result
 	 */
-	public int idDupCheck(String memberId) {
+	public int idDupCheck(String memberId) throws Exception{
 		Connection conn = getConnection();
 		
 		int result = dao.idDupCheck(conn, memberId);

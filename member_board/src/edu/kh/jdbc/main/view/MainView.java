@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import edu.kh.jdbc.main.model.service.MainService;
+import edu.kh.jdbc.member.view.MemberView;
 import edu.kh.jdbc.member.vo.Member;
 
 // 메인화면
@@ -14,9 +15,15 @@ public class MainView {
 	private MainService service = new MainService();
 	
 	// 로그인된 회원 정보를 저장한 객체를 참조하는 참조변수    _로그인이 유지되어야 하기 때문
-	private Member loginMember = null;
+	public static Member loginMember = null;   //_ private -> public static 다른 데서도 접근 가능.
 	// -> 로그인 X == null
 	// -> 로그인 O != null
+	
+	// 회원 기능 메뉴 객체 생성  (<- MemberView에서 넘어옴)  -> 아래 로그인 메뉴 case1
+	private MemberView memberView = new MemberView();
+	
+	
+	
 	
 	/**
 	 * 메인 메뉴 출력 메서드
@@ -59,7 +66,7 @@ public class MainView {
 					
 				} else {  // 로그인O
 					
-					System.out.println("***** 로그인메뉴 *****");
+					System.out.println("\n***** 로그인 메뉴 *****\n");
 					System.out.println("1. 회원 기능");
 					System.out.println("2. 게시판 기능");
 					System.out.println("0. 로그아웃");
@@ -71,7 +78,10 @@ public class MainView {
 					System.out.println();
 					
 					switch(input) {
-					case 1: break;
+					
+					// 회원 기능 서브 메뉴 출력           //5_로그인 정보를 전달해줘야함. 로그인 정보는 loginMember 변수에 저장되어 있음.
+					case 1: memberView.memberMenu(loginMember); break;
+					
 					case 2: break;
 					case 0: //로그아웃 == loginMember가 참조하는 객체 없음(==null)
 							// 로그인 == loginMember가 참조하는 객체 존재
