@@ -47,7 +47,22 @@
 		WHERE BOARD_NO = ?
 	 </entry>
 	 
+	 
+	 <!-- 게시글 수정 -->
+	 <entry key="updateBoard">
+	 	UPDATE "BOARD" SET
+		BOARD_TITLE = ?,
+		BOARD_CONTENT = ?
+		WHERE BOARD_NO = ?
+	 </entry>
+	 
 
+	 <!-- 게시글 삭제 -->
+	 <entry key="deleteBoard">
+	 	UPDATE "BOARD" SET
+		DELETE_FL = 'Y'
+		WHERE BOARD_NO = ?
+	 </entry>	
 	
 	
 

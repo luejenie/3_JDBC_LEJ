@@ -65,7 +65,7 @@ SELECT * FROM "MEMBER";
 
 -- 아이디 중복 확인
 -- (중복되는 아이디가 입력되어도 탈퇴한 계정이면 중복 X라고 판별)
-SELECT COUNT(*) FROM "MEMBER"
+SELECT COUNT(*), COUNT(*)+1 FROM "MEMBER"
 WHERE MEMBER_ID = 'user01'
 AND SECESSION_FL = 'N';
 --> ID가 user01 이면서 탈퇴하지 않은 회원 조회
@@ -319,16 +319,34 @@ COMMIT;
 
 
 
+-- 댓글 등록
+INSERT INTO "COMMENT"
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '댓글 샘플 3번', DEFAULT, DEFAULT, 3, 3);
 
 
+SELECT * FROM "COMMENT";
+
+-- 댓글 수정
+UPDATE "COMMENT" SET
+COMMENT_CONTENT = '댓글 수정 테스트'
+WHERE COMMENT_NO = 6 ;
+
+ROLLBACK;
 
 
+SELECT * FROM "COMMENT";
+
+-- 게시글 수정
+UPDATE "BOARD" SET
+BOARD_TITLE = ?,
+BOARD_CONTENT = ?
+WHERE BOARD_NO = ?;
 
 
-
-
-
-
+--게시글 삭제
+UPDATE "BOARD" SET
+DELETE_FL = 'Y'
+WHERE BOARD_NO = ?
 
 
 
