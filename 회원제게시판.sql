@@ -349,6 +349,74 @@ DELETE_FL = 'Y'
 WHERE BOARD_NO = ?
 
 
+-- 다음 게시글 번호 생성
+SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL;  --하나씩 번호가 증가함.
+
+
+
+-- 게시글 검색
+-- 검색어가 포함되는 게시글의 목록을 조회
+SELECT BOARD_NO, BOARD_TITLE, MEMBER_NM, READ_COUNT, 
+	 CASE 
+		 WHEN SYSDATE - CREATE_DT < 1/24/60   --// 현재 시간과 게시글 작성시간이 1분 미만인 경우
+		 THEN FLOOR((SYSDATE - CREATE_DT) * 24 * 60 * 60) || '초 전'
+		 WHEN SYSDATE - CREATE_DT < 1/24  
+		 THEN FLOOR((SYSDATE - CREATE_DT) * 24 * 60) || '분 전'
+		 WHEN SYSDATE - CREATE_DT < 1  
+		 THEN FLOOR((SYSDATE - CREATE_DT) * 24) || '시간 전'
+		 ELSE TO_CHAR(CREATE_DT, 'YYYY-MM-DD')
+	 END CREATE_DT, 
+	 (SELECT COUNT(*) FROM "COMMENT" C
+	  WHERE C.BOARD_NO = B.BOARD_NO) COMMENT_COUNT  
+FROM "BOARD" B
+JOIN "MEMBER" USING(MEMBER_NO)
+WHERE DELETE_FL = 'N'
+-- 제목 검색  							  -- ? 양 옆에 홑따옴표 남기지 말기!!
+AND BOARD_TITLE LIKE '%' || ? || '%'  -- 연결연산자 이용 <- setString하면 ''가 저절로 붙어서 오기 떄문에 '%'?'%' 이런 모양이 되어버림.
+-- 내용 검색
+AND BOARD_CONTENT LIKE '%' || ? || '%'
+-- 제목 + 내용 검색
+-- 제목 또는 내용
+AND (BOARD_TITLE LIKE '%' || ? || '%'
+OR BOARD_CONTENT LIKE '%' || ? || '%')
+-- 작성자
+AND MEMBER_NM LIKE '%' || ? || '%'
+ORDER BY BOARD_NO DESC;
+
+
+SELECT * FROM "BOARD";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
