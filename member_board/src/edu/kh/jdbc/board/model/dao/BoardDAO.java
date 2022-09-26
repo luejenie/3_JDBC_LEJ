@@ -27,8 +27,6 @@ public class BoardDAO {
 			prop = new Properties();
 			prop.loadFromXML(new FileInputStream("board-query.xml"));
 			
-			
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -220,6 +218,135 @@ public class BoardDAO {
 			
 		}
 		return result;
+	}
+
+
+
+	/** 게시글 등록 DAO
+	 * @param conn
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertBoard(Connection conn, Board board) throws Exception {
+		
+		int result = 0;
+		//_ try 안에 result를 선언하면 지역변수가 되어서 return 반환에 문제가 생김.
+		
+		//_ try~finally 왜 쓰는가. try가 예외가 발생할 것 같은 구문을 작성할 때 사용.
+		// 
+		try {
+			String sql = prop.getProperty("insertBoard");
+			// Properties 는 key, value가 <String, String>으로 제한됨.
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, board.getBoardNo());
+			
+			pstmt.setString(2, board.getBoardTitle());
+			pstmt.setString(3, board.getBoardContent());
+			pstmt.setInt(4, board.getMemberNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close(pstmt);
+			
+		}
+		
+		return result;
+	}
+
+
+
+	/** 다음 게시글 번호 생성 DAO
+	 * @param conn
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	public int nextBoardNo(Connection conn) throws Exception{
+		int boardNo = 0;   //result 아님
+		
+		try {
+			String sql = prop.getProperty("nextBoardNo");
+			
+			//_ stmt / pstmt 모두 쓸 수 있음. (? 없어도)
+			pstmt = conn.prepareStatement(sql);  //_ ? 없으면 아래 set구문 작성 안하면 됨.
+			
+			rs = pstmt.executeQuery();   //SELECT 수행 -> ResultSet으로 가져오기.
+			
+			if(rs.next()) { // 조회 결과 1행 밖에 없음
+				boardNo = rs.getInt(1); // 첫 번째 컬럼값을 얻어와 boardNo에 저장
+			}
+			
+		} finally {
+			close(rs);
+			close(pstmt);
+			
+		}
+		return boardNo;
+	}
+
+
+
+	/** 게시글 검색 DAO
+	 * @param conn
+	 * @param condition
+	 * @param query
+	 * @return boardList
+	 * @throws Exception
+	 */
+	public List<Board> searchBoard(Connection conn, int condition, String query) throws Exception {
+		
+		List<Board> boardList = new ArrayList<>(); //_다형성 제너릭스. 타입 추론.
+		
+		try{
+			String sql = prop.getProperty("searchBoard1")
+					 	+ prop.getProperty("searchBoard2_" + condition)
+					 	+ prop.getProperty("searchBoard3");
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, query);  //검색어
+			
+			// 3번(제목+내용)은 ?가 2개 존재하기 때문에 추가 세팅 구문 작성해야 함.
+			if(condition == 3) {
+				pstmt.setString(2, query);
+			}
+
+			rs = pstmt.executeQuery();
+			
+			// ResultSet에 저장된 값을 List 옮겨 담기
+			while(rs.next()) {  //_만약에 다음 행에 존재한다면?
+				
+				// BOARD_NO, BOARD_TITLE, MEMBER_NM, READ_COUNT, CREATE_DT, COMMENT_COUNT
+				
+				int boardNo = rs.getInt("BOARD_NO");
+				String boardTitle = rs.getString("BOARD_TITLE");
+				String memberName = rs.getString("MEMBER_NM");
+				int readCount = rs.getInt("READ_COUNT");
+				String createDate = rs.getString("CREATE_DT");
+				int commentCount = rs.getInt("COMMENT_COUNT");
+				
+				
+				Board board = new Board();
+				board.setBoardNo(boardNo);
+				board.setBoardTitle(boardTitle);
+				board.setMemberName(memberName);
+				board.setReadCount(readCount);
+				board.setCreateDate(createDate);
+				board.setCommentCount(commentCount);
+				
+				boardList.add(board);
+				
+			}
+			
+			
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		
+		return boardList;
 	}
 	
 	
